@@ -1,0 +1,323 @@
+@use "sass:list";
+@use "variables" as *;
+@use "themes" as *;
+@use "functions" as *;
+
+//% ***************  General  *************** //
+// Transition
+@mixin transition($property: all, $time: 0.3s, $function: ease-in-out) {
+  transition: $property $time $function;
+}
+
+// Bg-Image
+@mixin bg-image($image, $size: cover, $position: center center) {
+  background-image: url(@/assets/images/#{$image});
+  background-size: $size;
+  background-position: $position;
+  background-repeat: no-repeat;
+}
+
+// Gradient
+@mixin gradient($color1, $color2, $direction: to right bottom) {
+  background-image: linear-gradient($direction, getColor($color1), getColor($color2));
+}
+
+// Clearfix
+@mixin clearfix {
+  &::after,
+  &::before {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// Generate Color Custom Props
+@mixin generate-color-custom-props($map: $colors, $prefix: clr) {
+  @each $color, $shades in $map {
+    @if type-of($shades) == "map" {
+      // If the value is another map, call the mixin recursively
+      @include generate-color-custom-props($shades, #{$prefix}-#{$color});
+    } @else {
+      // If the value is not a map, it's a color value
+      --#{$prefix}-#{$color}: #{$shades};
+    }
+  }
+}
+
+//% ***************    *************** //
+
+//% ***************  Colors *************** //
+// Adjust bg color
+@mixin adjustBgColor($adjustment: darken, $bgColor, $color, $amount: 6%) {
+  background-color: $bgColor;
+
+  &:hover,
+  &:active {
+    $adjustment-function: get-function($adjustment);
+    background-color: call($adjustment-function, $bgColor, $amount);
+    @if $color {
+      color: $color;
+    }
+  }
+}
+//% ***************   *************** //
+
+//% ***************  Units *************** //
+// Dynamic Viewport Units
+@mixin dvw($value: 100) {
+  width: #{$value}vw;
+  width: #{$value}dvw;
+}
+
+@mixin dvh($value: 100) {
+  height: #{$value}vw;
+  height: #{$value}dvw;
+}
+//% ***************   *************** //
+
+//% ***************  Link States *************** //
+// Focus State
+@mixin focus-state($color: color("primary.base")) {
+  &:focus-visible {
+    outline: 3px solid transparent;
+    outline-offset: 4px;
+    box-shadow:
+      0 0 3px 2px #ffffff,
+      0 0 4px 4px $color;
+  }
+}
+
+// Link Underline
+@mixin link-underline($color: currentColor, $origin: center) {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: $color;
+    left: 0;
+    bottom: -5px;
+    transform: scaleX(0);
+    transform-origin: $origin;
+    transition: $transition;
+    border-radius: var(--pilled);
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+//% ***************    *************** //
+
+//% ***************  Centering  *************** //
+// Center with position //
+@mixin center-pos {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Center with margins //
+@mixin center-mar {
+  margin-left: auto;
+  margin-right: auto;
+}
+//% ***************    *************** //
+
+//% ***************  Layout Tools *************** //
+// Flexbox
+@mixin flex($direction: row, $justify: center, $align: center, $gap: 0, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  flex-wrap: $wrap;
+  justify-content: $justify;
+  align-items: $align;
+
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// Responsive Grid
+@mixin responsive-grid($size: 35rem, $gap: 2rem) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(#{$size}, 100%), 1fr));
+  gap: $gap;
+}
+//% ***************    *************** //
+
+//% ***************  Overlays  *************** //
+// Pseudo element overlay
+@mixin pseudo($loc: before, $content: "", $bgColor: rgba(color("black"), 0.3)) {
+  position: relative;
+  isolation: isolate;
+
+  &::#{$loc} {
+    content: $content;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: $bgColor;
+    transition: $transition;
+  }
+}
+
+// Cover parent element
+@mixin cover($radius: 0) {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  z-index: 1;
+  border-radius: $radius;
+}
+
+// Darken Overlay
+@mixin darkenOverlay($bg: rgb(0, 0, 0), $opacity: 0.15, $radius: 0) {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: $bg;
+    border-radius: $radius;
+    opacity: $opacity;
+    pointer-events: none;
+    user-select: none;
+    backface-visibility: hidden;
+    transition: $transition;
+  }
+}
+//% ***************    *************** //
+
+//% ***************  Components  *************** //
+// Button //
+%btn-standard-props {
+  @include transition(all, 0.4s, ease);
+  display: inline-block;
+  text-transform: capitalize;
+  letter-spacing: var(--letterSpacing-3);
+  border-color: transparent;
+  border-radius: var(--radius-2);
+  box-shadow: shadow(lg-1);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+@mixin btn(
+  $bgColor: color("primary.base"),
+  $textColor: color("gray.50"),
+  $padding: 1rem 2rem,
+  $fontSize: fs(sm-2),
+  $adjustment: darken,
+  $type: normal
+) {
+  &,
+  &:link,
+  &:visited {
+    @extend %btn-standard-props;
+    @include focus-state($bgColor);
+
+    padding: $padding;
+    color: $textColor;
+
+    font-size: $fontSize;
+
+    @if $type == normal {
+      @include adjustBgColor($adjustment, $bgColor, $textColor);
+    }
+
+    @if $type == outlined {
+      background-color: #fff;
+      border: 1px solid $bgColor;
+      color: $bgColor;
+
+      &:hover,
+      &:active {
+        background-color: $bgColor;
+        color: $textColor;
+      }
+    }
+  }
+}
+
+// Card
+@mixin card($bgColor: getColor(card), $min-height: 40rem, $radius: var(--radius-3), $shadow: var(--shadow-dark)) {
+  min-height: $min-height;
+  background-color: $bgColor;
+  border-radius: $radius;
+  box-shadow: $shadow;
+  padding: 2rem 3rem;
+}
+
+// Social Icons
+@mixin socialIcons(
+  $official: false,
+  $officialOnHover: false,
+  $color: getColor(socials),
+  $hoverColor: getColor(socialsHover)
+) {
+  $socials: facebook, twitter, linkedin, youtube, instagram;
+
+  @if $official {
+    @if $officialOnHover {
+      color: $color;
+
+      @each $icon in $socials {
+        @include fillIconsColor(true, $icon);
+      }
+    } @else {
+      @each $icon in $socials {
+        @include fillIconsColor(false, $icon);
+      }
+    }
+  } @else {
+    color: $color;
+
+    &:hover {
+      color: $hoverColor;
+    }
+  }
+}
+
+@mixin fillIconsColor($hover, $icon) {
+  @if $hover {
+    @if $icon == instagram {
+      &--#{$icon}:hover {
+        background-image: getColor(#{$icon});
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    } @else {
+      &--#{$icon}:hover {
+        color: getColor(#{$icon});
+      }
+    }
+  } @else {
+    @if $icon == instagram {
+      &--#{$icon} {
+        background-image: getColor(#{$icon});
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    } @else {
+      &--#{$icon} {
+        color: getColor(#{$icon});
+      }
+    }
+  }
+}

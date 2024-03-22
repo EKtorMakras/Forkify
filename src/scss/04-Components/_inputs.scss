@@ -1,0 +1,29 @@
+@use "../01-Abstracts" as *;
+
+.input {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-1);
+  color: getColor(slate-600);
+  font-size: fs(sm-3);
+  @include focus-state();
+
+  &::placeholder {
+    font-size: fs(sm-1);
+    color: getColor(slate-400);
+  }
+
+  &-group {
+    @include flex(column, center, start, 0.8rem);
+    margin-bottom: 1.5rem;
+
+    &--horizontal {
+      @include flex(row, space-between, center, 2rem);
+      width: 100%;
+    }
+  }
+
+  &-label {
+    color: getColor(slate-500);
+    font-size: fs(sm-3);
+  }
+}

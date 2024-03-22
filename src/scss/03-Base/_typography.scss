@@ -1,0 +1,32 @@
+@use "../01-Abstracts" as *;
+
+body {
+  font-family: $ff-primary;
+  font-size: fs(rg);
+  font-weight: fw(regular);
+  line-height: $lineHeightText;
+}
+
+p {
+  font-size: fs(rg);
+  color: getColor(text);
+  max-width: $paraMaxWidth;
+  letter-spacing: var(--letterSpacing-2);
+}
+
+//^ ---------  Headings ---------  //
+.heading--2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: getColor(primary-base);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  // transform: skewY(-3deg);
+}
+
+.link:link,
+.link:visited {
+  color: getColor(gray-dark-2);
+}
+//^ ---------  --------- //

@@ -1,0 +1,43 @@
+@use "variables" as *;
+@use "mixins" as *;
+@use "media" as *;
+@use "themes" as *;
+
+:root {
+  //@ ********* Colors  *********//
+  @include generate-color-custom-props($map: $colors);
+
+  //@ ********* Radius  *********//
+  @for $i from 1 through 5 {
+    --radius-#{$i}: calc(#{$baseRadius} * #{$i});
+  }
+
+  --pilled: 25rem;
+  --circle: 50%;
+
+  //@ ********* Letter Spacing  *********//
+  @for $i from 1 through 5 {
+    --letterSpacing-#{$i}: calc(#{$baseLetterSpacing} * #{$i});
+  }
+
+  //@ ********* Shadows  *********//
+  --shadow-light: #{shadow(rg-2)};
+  --shadow-dark: #{shadow(lg-1)};
+
+  //@ ********* Other  *********//
+  --max-width: #{$max-width};
+
+  @include respond(xxl) {
+    --max-width: calc(#{$max-width} * 1.2);
+  }
+}
+
+//& ******* Light Theme ******* //
+:root[data-theme="light"] {
+  @include generate-color-custom-props($map: $colors-light);
+}
+
+//& ******* Dark Theme ******* //
+:root[data-theme="dark"] {
+  @include generate-color-custom-props($map: $colors-dark);
+}

@@ -1,0 +1,21 @@
+@use "variables" as *;
+
+//% ***************  Light Theme  *************** //
+$colors-light: (
+  "text": color("slate-600"),
+  "title": color("gray.blue-5"),
+  "body": color("slate-50"),
+  "card": color("white"),
+  "socials": color("slate-500"),
+  "socialsHover": color("slate-700"),
+);
+
+//% ***************  Dark Theme  *************** //
+$colors-dark: (
+  "text": color("slate-50"),
+  "title": color("slate-100"),
+  "body": color("gray.blue-6"),
+  "card": color("gray.blue-5"),
+  "socials": color("slate-100"),
+  "socialsHover": color("slate-300"),
+);

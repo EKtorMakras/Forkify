@@ -1,0 +1,239 @@
+@use "sass:math";
+@use "../01-Abstracts" as *;
+
+$grid-columns: 12;
+$layout-values: start, end, center, space-between, space-around, space-evenly, baseline;
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+
+  & > * {
+    flex-grow: 0;
+  }
+}
+
+// Direction
+.flex-column {
+  flex-direction: column;
+}
+
+// Columns
+@for $i from 1 through $grid-columns {
+  .col-#{$i} {
+    width: math.div($i * 100%, $grid-columns);
+  }
+}
+
+// Place Content
+@each $val in $layout-values {
+  .justify-#{$val} {
+    justify-content: $val;
+  }
+  .align-#{$val} {
+    align-items: $val;
+  }
+}
+
+// Gaps
+@for $i from 1 through 35 {
+  .gap-#{$i} {
+    gap: calc(#{$baseGutter} * #{$i});
+  }
+  .col-gap-#{$i} {
+    column-gap: calc(#{$baseGutter} * #{$i});
+  }
+  .row-gap-#{$i} {
+    row-gap: calc(#{$baseGutter} * #{$i});
+  }
+}
+
+//& ******* Xs Breakpoint ******* //
+@include respond(xs) {
+  // Direction
+  .flex-xs-column {
+    flex-direction: column;
+  }
+
+  // Columns
+  @for $i from 1 through $grid-columns {
+    .col-xs-#{$i} {
+      width: math.div($i * 100%, $grid-columns);
+    }
+  }
+
+  // Place Content
+  @each $val in $layout-values {
+    .justify-xs-#{$val} {
+      justify-content: $val;
+    }
+    .align-xs-#{$val} {
+      align-items: $val;
+    }
+  }
+
+  // Gaps
+  @for $i from 1 through 35 {
+    .gap-xs-#{$i} {
+      gap: calc(#{$baseGutter} * #{$i});
+    }
+    .col-gap-xs-#{$i} {
+      column-gap: calc(#{$baseGutter} * #{$i});
+    }
+    .row-gap-xs-#{$i} {
+      row-gap: calc(#{$baseGutter} * #{$i});
+    }
+  }
+}
+
+//& ******* Sm Breakpoint ******* //
+@include respond(sm) {
+  // Direction
+  .flex-sm-column {
+    flex-direction: column;
+  }
+
+  // Columns
+  @for $i from 1 through $grid-columns {
+    .col-sm-#{$i} {
+      width: math.div($i * 100%, $grid-columns);
+    }
+  }
+
+  // Place Content
+  @each $val in $layout-values {
+    .justify-sm-#{$val} {
+      justify-content: $val;
+    }
+    .align-sm-#{$val} {
+      align-items: $val;
+    }
+  }
+
+  // Gaps
+  @for $i from 1 through 35 {
+    .gap-sm-#{$i} {
+      gap: calc(#{$baseGutter} * #{$i});
+    }
+    .col-gap-sm-#{$i} {
+      column-gap: calc(#{$baseGutter} * #{$i});
+    }
+    .row-gap-sm-#{$i} {
+      row-gap: calc(#{$baseGutter} * #{$i});
+    }
+  }
+}
+
+//& ******* Md Breakpoint ******* //
+@include respond(md) {
+  // Direction
+  .flex-md-column {
+    flex-direction: column;
+  }
+
+  // Columns
+  @for $i from 1 through $grid-columns {
+    .col-md-#{$i} {
+      width: math.div($i * 100%, $grid-columns);
+    }
+  }
+
+  // Place Content
+  @each $val in $layout-values {
+    .justify-md-#{$val} {
+      justify-content: $val;
+    }
+    .align-md-#{$val} {
+      align-items: $val;
+    }
+  }
+
+  // Gaps
+  @for $i from 1 through 35 {
+    .gap-md-#{$i} {
+      gap: calc(#{$baseGutter} * #{$i});
+    }
+    .col-gap-md-#{$i} {
+      column-gap: calc(#{$baseGutter} * #{$i});
+    }
+    .row-gap-md-#{$i} {
+      row-gap: calc(#{$baseGutter} * #{$i});
+    }
+  }
+}
+
+//& ******* Lg Breakpoint ******* //
+@include respond(lg) {
+  // Direction
+  .flex-lg-column {
+    flex-direction: column;
+  }
+
+  // Columns
+  @for $i from 1 through $grid-columns {
+    .col-lg-#{$i} {
+      width: math.div($i * 100%, $grid-columns);
+    }
+  }
+
+  // Place Content
+  @each $val in $layout-values {
+    .justify-lg-#{$val} {
+      justify-content: $val;
+    }
+    .align-lg-#{$val} {
+      align-items: $val;
+    }
+  }
+
+  // Gaps
+  @for $i from 1 through 35 {
+    .gap-lg-#{$i} {
+      gap: calc(#{$baseGutter} * #{$i});
+    }
+    .col-gap-lg-#{$i} {
+      column-gap: calc(#{$baseGutter} * #{$i});
+    }
+    .row-gap-lg-#{$i} {
+      row-gap: calc(#{$baseGutter} * #{$i});
+    }
+  }
+}
+
+//& ******* Xl Breakpoint ******* //
+@include respond(xl) {
+  // Direction
+  .flex-xl-column {
+    flex-direction: column;
+  }
+
+  // Columns
+  @for $i from 1 through $grid-columns {
+    .col-xl-#{$i} {
+      width: math.div($i * 100%, $grid-columns);
+    }
+  }
+
+  // Place Content
+  @each $val in $layout-values {
+    .justify-xl-#{$val} {
+      justify-content: $val;
+    }
+    .align-xl-#{$val} {
+      align-items: $val;
+    }
+  }
+
+  // Gaps
+  @for $i from 1 through 35 {
+    .gap-xl-#{$i} {
+      gap: calc(#{$baseGutter} * #{$i});
+    }
+    .col-gap-xl-#{$i} {
+      column-gap: calc(#{$baseGutter} * #{$i});
+    }
+    .row-gap-xl-#{$i} {
+      row-gap: calc(#{$baseGutter} * #{$i});
+    }
+  }
+}

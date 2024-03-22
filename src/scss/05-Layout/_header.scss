@@ -1,0 +1,59 @@
+@use "../01-Abstracts" as *;
+
+.header {
+  grid-area: head;
+  background-color: getColor(gray-light-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &__logo {
+    margin-left: 4rem;
+    height: 4.6rem;
+    display: block;
+  }
+}
+
+.search {
+  background-color: #fff;
+  border-radius: 10rem;
+  display: flex;
+  align-items: center;
+  padding-left: 3rem;
+  transition: all 0.3s;
+
+  &:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 0.7rem 3rem rgba(getColor(gray-dark-1), 0.08);
+  }
+
+  &__field {
+    border: none;
+    background: none;
+    font-family: inherit;
+    color: inherit;
+    font-size: 1.7rem;
+    width: 30rem;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: getColor(gray-light-3);
+    }
+
+    @include respond(md) {
+      width: auto;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+  }
+
+  &__btn {
+    font-weight: 600;
+    font-family: inherit;
+  }
+}

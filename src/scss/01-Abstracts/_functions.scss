@@ -1,0 +1,157 @@
+@use "sass:math";
+
+//& ******* Custom props ******* //
+// Return custom prop with prefix
+@function getColor($name, $prefix: clr) {
+  @return var(--#{$prefix}-#{$name});
+}
+
+//& ******* Px Conversions ******* //
+// Convert px to em
+@function em($pixels, $context: 16) {
+  @return (math.div($pixels, $context)) * 1em;
+}
+
+// Convert px to rem
+@function rem($pixels, $context: 16) {
+  @return (math.div($pixels, $context)) * 1rem;
+}
+
+//& ******* Other ******* //
+/**
+ * Splits a string into an array of substrings based on a delimiter.
+ *
+ * @param {String} $string - The input string to be exploded.
+ * @param {String} $delimiter - (Optional) The delimiter used to split the string. Defaults to an empty string.
+ * @returns {List} - An array of substrings obtained by splitting the input string based on the delimiter.
+ *                   If the input is not a string or if the delimiter is not a string, the function throws an error.
+ *
+ * @example
+ * Split a comma-separated string into an array
+ * $stringList: str-explode("apple,banana,watermelon", ","); // Returns ("apple", "banana", "watermelon")
+ */
+@function str-explode($string, $delimiter: "") {
+  @if type-of($string) != "string" {
+    @error 'The argument $string: `#{$string}` is of incorrect type: `#{type-of($string)}`. Type of `String` is required!';
+  } @else if type-of($delimiter) != "string" {
+    @error 'The argument $string: `#{$string}` is of incorrect type: `#{type-of($string)}`. Type of `String` is required!';
+  }
+
+  $result: ();
+  $running: true;
+
+  @if str-length($delimiter) ==0 {
+    @for $i from 1 through str-length($string) {
+      $result: append($result, str-slice($string, $i, $i));
+    }
+
+    @return $result;
+  }
+
+  @while $running {
+    $index: str-index($string, $delimiter);
+
+    @if $index !=null {
+      $item: str-slice($string, 1, ($index - 1));
+      $result: append($result, $item);
+      $string: str-slice($string, ($index + str-length($delimiter)));
+    } @else {
+      $running: false;
+    }
+  }
+
+  @return append($result, $string);
+}
+
+/**
+ * Retrieves a value from a nested map structure based on a sequence of keys.
+ *
+ * @param {Map} $map - The nested map structure from which to retrieve the value.
+ * @param {String} $keys... - One or more keys indicating the path to the desired value within the nested map.
+ * @returns {*} - The value associated with the sequence of keys in the nested map structure. If any key in the sequence is not found or if   the input is not a map, the function returns `null`.
+ *
+ * @example
+ * Define a nested map structure
+ * $colors: (
+ *   primary: (
+ *     base: #1e4367,
+ *     dark: #153452
+ *   ),
+ *   secondary: (
+ *     base: #234f33,
+ *     dark: #1a3f28
+ *   )
+ * );
+ *
+ * Retrieve the base color of the primary theme
+ * $baseColor: deep-map-get($colors, "primary", "base"); // Returns #1e4367
+ */
+@function deep-map-get($map, $keys...) {
+  @if type-of($map) != "map" {
+    @error "The argument $map: '#{$map}' is of incorrect type: #{type-of($map)}.Type of 'map' is required.";
+  }
+
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}
+
+
+/**
+ * Retrieves a color value from a predefined color theme.
+ *
+ * @param {String} $color-name - The name of the color to retrieve.
+ * @param {String} $color-variant - (Optional) The variant of the color to retrieve. Defaults to null.
+ * @param {Boolean} $true-val - (Optional) Indicates whether to return the true color value (without CSS variable). Defaults to false.
+ * @returns {Color} - The color value obtained from the color theme. If a color variant is specified, it retrieves the variant; otherwise, it returns the base color.
+ *
+ * @example
+ * Retrieve the base color value for the 'primary' color
+ * $primaryBaseColor: colorTest("primary"); // Returns #246a99
+ *
+ * Retrieve the dark variant of the 'primary' color
+ * $primaryDarkColor: colorTest("primary", "dark"); // Returns #153452
+ *
+ * Retrieve the CSS variable name for the base color of 'primary'
+ * $primaryBaseColorVar: colorTest("primary", null, true); // Returns var(--color-primary-base)
+ *
+ * Retrieve the CSS variable name for the dark variant of 'primary'
+ * $primaryDarkColorVar: colorTest("primary", "dark", true); // Returns var(--color-primary-dark)
+ */
+@function colorTest($color-name, $color-variant: null, $true-val: false) {
+  //https://codepen.io/jakealbaugh/post/css4-variables-and-sass
+  // if we enable css var
+  @if $use-css-var == true {
+    // we need to return the color value
+    @if $true-val == true {
+      // color variant is optional
+      @if ($color-variant != null) {
+        // map inception, need two deep
+        @return map-get(map-get($color-themes, $color-name), $color-variant);
+      } @else {
+        // Default color
+        @return map-get(map-get($color-themes, $color-name), base);
+      } // if we're only returning the CSS4 variable
+    } @else {
+      // color variant is optional
+      @if ($color-variant != null) {
+        // map inception, need two names
+        @return var(#{$color-prefix}#{$color-name}-#{$color-variant});
+      } @else {
+        // Default color, one name
+        @return var(#{$color-prefix}#{$color-name}-base);
+      }
+    }
+  } @else {
+    // color variant is optional
+    @if ($color-variant != null) {
+      // map inception, need two deep
+      @return map-get(map-get($color-themes, $color-name), $color-variant);
+    } @else {
+      // Default color
+      @return map-get(map-get($color-themes, $color-name), base);
+    }
+  }
+}

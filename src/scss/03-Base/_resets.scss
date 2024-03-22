@@ -1,0 +1,18 @@
+@use "../01-Abstracts" as *;
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; //1rem = 10px //
+
+  @include respond(md) {
+    font-size: 50%; //1rem = 8px //
+  }
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}

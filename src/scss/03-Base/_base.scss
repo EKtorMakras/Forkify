@@ -1,0 +1,46 @@
+@use "../01-Abstracts" as *;
+
+body {
+  overflow-x: hidden;
+  background-image: $gradient;
+  color: getColor(gray-dark-1);
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - 2 * 4vw);
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  transition: $transition;
+}
+
+img,
+picture,
+svg,
+video {
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+  font-style: italic;
+}
+
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+button,
+input[type="submit"] {
+  cursor: pointer;
+  transition: $transition;
+}

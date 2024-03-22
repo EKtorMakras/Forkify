@@ -1,0 +1,218 @@
+@use "functions" as *;
+
+//& **********************************  Colors  ********************************** //
+$colors: (
+  //% ***************  General  *************** //
+  "black": #000,
+  "white": #fff,
+
+  "red-dark": #842029,
+  "red-light": #f8d7da,
+
+  "green-dark": #0f5132,
+  "green-light": #d1e7dd,
+
+  "error": #d32752,
+  //% ***************    *************** //
+
+  //% ***************  Socials  *************** //
+  "facebook": #3b5998,
+  "twitter": #00acee,
+  "linkedin": #0072b1,
+  "youtube": #ff0000,
+  "instagram": linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%),
+
+  //% ***************  Gray  *************** //
+  "gray": (
+      // General ones
+      "light-1": #f9f5f3,
+      "light-2": #f2efee,
+      "light-3": #d3c7c3,
+      "dark-1": #615551,
+      "dark-2": #918581,
+
+      // Variations
+      "50": #f9fafb,
+      "100": #f3f4f6,
+      "200": #e5e7eb,
+      "300": #d1d5db,
+      "400": #9ca3af,
+      "500": #6b7280,
+      "600": #4b5563,
+      "700": #374151,
+      "800": #1f2937
+    ),
+
+  //% ***************    *************** //
+
+  // Tailwind Colors
+  "slate-50": #f8fafc,
+  "slate-100": #f1f5f9,
+  "slate-200": #e2e8f0,
+  "slate-300": #cbd5e1,
+  "slate-400": #94a3b8,
+  "slate-500": #64748b,
+  "slate-600": #475569,
+  "slate-700": #334155,
+  "slate-800": #1e293b,
+  "slate-900": #0f172a,
+
+  "zinc-50": #fafafa,
+  "zinc-100": #f4f4f5,
+  "zinc-200": #e4e4e7,
+  "zinc-300": #d4d4d8,
+  "zinc-400": #a1a1aa,
+  "zinc-500": #71717a,
+  "zinc-600": #52525b,
+  "zinc-700": #3f3f46,
+  "zinc-800": #27272a,
+  "zinc-900": #18181b,
+
+  "rose-50": #fff1f2,
+  "rose-100": #ffe4e6,
+  "rose-200": #fecdd3,
+  "rose-300": #fda4af,
+  "rose-400": #fb7185,
+  "rose-500": #f43f5e,
+  "rose-600": #e11d48,
+  "rose-700": #be123c,
+  "rose-800": #9f1239,
+  "rose-900": #881337,
+
+  //@ ***************************** Project Colors *****************************//
+  //# ******** Primary ******** //
+  primary: (
+      "base": hsl(6, 82%, 73%),
+
+      // Light Shades
+      "50": hsl(6, 35%, 94%),
+      "100": hsl(6, 38%, 82%),
+      "150": hsl(6, 37%, 63%),
+      "200": hsl(6, 58%, 56%),
+      "300": hsl(6, 58%, 48%),
+      "400": hsl(6, 45%, 45%),
+
+      // Dark Shades
+      "600": hsl(6, 58%, 35%),
+      "700": hsl(6, 58%, 23%),
+      "800": hsl(6, 59%, 20%),
+      "900": hsl(6, 58%, 16%),
+    ),
+
+  //# ******** Secondary  ******** //
+  secondary: (
+      "base": hsl(43, 93%, 76%),
+
+      // Light Shades
+      "50": hsl(43, 35%, 94%),
+      "430": hsl(43, 38%, 82%),
+      "150": hsl(43, 37%, 63%),
+      "200": hsl(43, 58%, 56%),
+      "300": hsl(43, 58%, 48%),
+      "400": hsl(43, 45%, 45%),
+
+      // Dark Shades
+      "600": hsl(43, 58%, 35%),
+      "700": hsl(43, 58%, 23%),
+      "800": hsl(43, 59%, 20%),
+      "900": hsl(43, 58%, 16%),
+    ),
+
+    "grad-1": #fbdb89,
+    "grad-2": #f48982
+  //@ *****************************   ***************************** //
+);
+
+// Get Color Function
+@function color($key, $map: $colors) {
+  $keys: str-explode($key, ".");
+  @return deep-map-get($map, $keys...);
+}
+//& **********************************  End Of Colors  ********************************** //
+
+//& **********************************  Gradients  ********************************** //
+$gradient: linear-gradient(to right bottom, color("grad-1"), color("grad-2"));
+//& **********************************  End Of Gradients  ********************************** //
+
+//& **********************************  Fonts  ********************************** //
+//% ***************  Font-Size  *************** //
+$font-sizes: (
+  // Text
+  "sm-1": clamp(1.2rem, 1.1rem + 0.3vw, 1.6rem),
+  "sm-2": clamp(1.45rem, 1.2rem + 0.3vw, 1.8rem),
+  "sm-3": clamp(1.6rem, 1.3rem + 0.4vw, 2rem),
+  "rg": clamp(1.8rem, 1.5rem + 0.5vw, 2.2rem),
+  "lg-1": clamp(2rem, 1.7rem + 0.6vw, 2.5rem),
+  "lg-2": clamp(2.3rem, 2rem + 0.7vw, 2.7rem),
+  "lg-3": clamp(2.5rem, 2.2rem + 1vw, 3rem),
+  "lg-4": clamp(2.8rem, 2.3rem + 1.3vw, 3.4rem),
+
+  // Headings
+  "head-1": 6rem,
+  "head-2": 4.7rem,
+  "head-3": 4rem,
+  "head-4": 3.5rem,
+
+  "head-xl": 9rem,
+  "head-xxl": 12rem
+);
+
+@function fs($font-size) {
+  @return map-get($font-sizes, $font-size);
+}
+//% ***************    *************** //
+
+//% ***************  Font-Weight  *************** //
+$font-weights: (
+  "thin": 100,
+  "light": 300,
+  "regular": 400,
+  "medium": 500,
+  "semibold": 600,
+  "bold": 700,
+  "black": 900,
+);
+
+@function fw($font-weight-style) {
+  @return map-get($font-weights, $font-weight-style);
+}
+//% ***************    *************** //
+
+//% ***************  Font-Family  *************** //
+$ff-primary: "Nunito Sans", sans-serif;
+$ff-secondary: Arial, Helvetica, sans-serif;
+//% ***************    *************** //
+
+//& **********************************  End Of Fonts  ********************************** //
+
+//& **********************************  Shadows  ********************************** //
+$shadows: (
+  // Small
+  sm-1: 0 0.2rem 0.5rem rgba(color("black"), 0.05),
+  sm-2: 0 0.3rem 0.8rem rgba(color("black"), 0.05),
+  sm-3: 0 0.6rem 1.2rem rgba(color("black"), 0.05),
+  // Regular
+  rg-1: 0 0.2rem 0.5rem rgba(color("black"), 0.08),
+  rg-2: 0 0.3rem 0.8rem rgba(color("black"), 0.08),
+  rg-3: 0 0.6rem 1.2rem rgba(color("black"), 0.08),
+  // Large
+  lg-1: 0 0.4rem 0.8rem rgba(color("black"), 0.12),
+  lg-2: 0 0.8rem 1.6rem rgba(color("black"), 0.1),
+  lg-3: 0 1.3rem 3rem rgba(color("black"), 0.1)
+);
+
+@function shadow($shadow) {
+  @return map-get($shadows, $shadow);
+}
+//& **********************************  End Of Shadows  ********************************** //
+
+//& **********************************  Other  ********************************** //
+$baseLetterSpacing: 0.5px;
+$baseRadius: 3px;
+$baseGutter: 0.25rem;
+$lineHeightText: 1.5;
+$lineHeightTitle: 1.1;
+$max-width: 130rem;
+$paraMaxWidth: 45em;
+$transition: all 0.3s ease-in-out;
+//& **********************************  End Of Other  ********************************** //

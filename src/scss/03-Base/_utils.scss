@@ -1,0 +1,252 @@
+@use "../01-Abstracts" as *;
+
+//& ******* Generic ******* //
+// container
+.container {
+  max-width: $max-width;
+  min-height: 117rem;
+  margin: 4vw auto;
+  background-color: #fff;
+  border-radius: 9px;
+  overflow: hidden;
+  box-shadow: 0 2rem 6rem 0.5rem rgba(getColor(grey-dark-1), 0.2);
+
+  display: grid;
+  grid-template-rows: 10rem minmax(100rem, auto);
+  grid-template-columns: 1fr 2fr;
+  grid-template-areas:
+    'head head'
+    'list recipe';
+
+  @include respond(lg) {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+// Break out of a container
+.bust-out {
+  margin: 0 calc(50% - 50vw);
+}
+
+@mixin bust-out($width: 20%) {
+  margin: auto calc(50% - 50vw);
+  width: $width;
+  transform: translateX(calc(50vw - 50%));
+}
+
+// clearfix
+.clearfix {
+  @include clearfix;
+}
+
+// section set-up
+.section {
+  padding: 5rem 0;
+
+  &-center {
+    width: 90vw;
+    @include center-mar;
+    max-width: $max-width;
+
+    @include mq-min(992px) {
+      width: 95vw;
+    }
+  }
+
+  &-title {
+    margin-bottom: 4rem;
+    text-align: center;
+  }
+}
+
+//& ******* Visibility ******* //
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  z-index: -1;
+}
+
+.shown {
+  visibility: visible;
+  opacity: 1;
+  z-index: 1;
+}
+
+.d-none {
+  display: none !important;
+}
+
+//& ******* Colored ******* //
+.message,
+.error {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 5rem 4rem;
+
+  display: flex;
+
+  svg {
+    height: 3rem;
+    width: 3rem;
+    fill: getColor(primary-base);
+    transform: translateY(-0.3rem);
+  }
+
+  p {
+    margin-left: 1.5rem;
+    font-size: 1.8rem;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+}
+
+//& ******* Radius ******* //
+.sharp {
+  border-radius: var(--radius-1) !important;
+}
+
+.rounded {
+  border-radius: var(--radius-3) !important;
+}
+
+.pilled {
+  border-radius: var(--pilled) !important;
+}
+
+.circle {
+  border-radius: var(--circle) !important;
+}
+
+//& ******* Shadows ******* //
+.shadow-light {
+  box-shadow: var(--shadow-light) !important;
+}
+
+.shadow-dark {
+  box-shadow: var(--shadow-dark) !important;
+}
+
+//& ******* Spacing ******* //
+$subtractStep: 0.03rem;
+$vwStep: 0.15vw;
+$reduceAdjustment: 0.85;
+$increaseAdjustment: 1.6;
+
+@for $i from 1 through 35 {
+  $baseValue: calc(#{$baseGutter} * #{$i});
+  $subtractedValue: calc(#{$baseValue} * #{$reduceAdjustment});
+  $middleValue: calc(#{$subtractedValue} + (#{$vwStep} * #{$i}));
+  $afterValue: calc(#{$baseValue} * #{$increaseAdjustment});
+  $clampValue: clamp($baseValue, $middleValue, $afterValue);
+
+  // Margins
+  .ma-#{$i} {
+    margin: $clampValue;
+  }
+  .mt-#{$i} {
+    margin-top: $clampValue;
+  }
+  .mb-#{$i} {
+    margin-bottom: $clampValue;
+  }
+  .mr-#{$i} {
+    margin-right: $clampValue;
+  }
+  .ml-#{$i} {
+    margin-left: $clampValue;
+  }
+  .mx-#{$i} {
+    margin-inline: $clampValue;
+  }
+  .my-#{$i} {
+    margin-block: $clampValue;
+  }
+  .mx-auto {
+    margin-inline: auto;
+  }
+
+  // Paddings
+  .pa-#{$i} {
+    padding: $baseValue;
+  }
+  .pt-#{$i} {
+    padding-top: $baseValue;
+  }
+  .pb-#{$i} {
+    padding-bottom: $baseValue;
+  }
+  .pr-#{$i} {
+    padding-right: $baseValue;
+  }
+  .pl-#{$i} {
+    padding-left: $baseValue;
+  }
+  .px-#{$i} {
+    padding-inline: $baseValue;
+  }
+  .py-#{$i} {
+    padding-block: $baseValue;
+  }
+}
+
+//$ **************** Media Based Utils  ****************$//
+$text-align-values: left, right, justify, center;
+
+// center text
+@each $val in $text-align-values {
+  .text-#{$val} {
+    text-align: $val;
+  }
+}
+
+//& ******* Xs Breakpoint ******* //
+@include respond(xs) {
+  // center text
+  @each $val in $text-align-values {
+    .text-xs-#{$val} {
+      text-align: $val;
+    }
+  }
+}
+
+//& ******* Sm Breakpoint ******* //
+@include respond(sm) {
+  // center text
+  @each $val in $text-align-values {
+    .text-sm-#{$val} {
+      text-align: $val;
+    }
+  }
+}
+
+//& ******* Md Breakpoint ******* //
+@include respond(md) {
+  // center text
+  @each $val in $text-align-values {
+    .text-md-#{$val} {
+      text-align: $val;
+    }
+  }
+}
+
+//& ******* Lg Breakpoint ******* //
+@include respond(lg) {
+  // center text
+  @each $val in $text-align-values {
+    .text-lg-#{$val} {
+      text-align: $val;
+    }
+  }
+}
+
+//& ******* Xl Breakpoint ******* //
+@include respond(xl) {
+  // center text
+  @each $val in $text-align-values {
+    .text-xl-#{$val} {
+      text-align: $val;
+    }
+  }
+}

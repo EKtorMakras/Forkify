@@ -1,0 +1,80 @@
+@use "functions" as *;
+
+// Custom Breakpoints
+$break-points: (
+  "xs": em(500),
+  "sm": em(600),
+  "md": em(980),
+  "lg": em(1250),
+  "xl": em(1800),
+);
+
+@function break-points($break-point-limit) {
+  @return map-get($break-points, $break-point-limit);
+}
+
+//@ ************  All Widths  ************ //
+@mixin mq-min($width) {
+  @media screen and (min-width: $width) {
+    @content;
+  }
+}
+
+@mixin mq-max($width) {
+  @media screen and (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin mq-min-max($min-width, $max-width) {
+  @media screen and (min-width: $min-width) and (max-width: $max-width) {
+    @content;
+  }
+}
+//@ ************    ************ //
+
+//@ ************  Custom Widths  ************ //
+@mixin respond($breakpoint) {
+  // 400px
+  @if $breakpoint==xs {
+    @media screen and (max-width: break-points(xs)) {
+      @content;
+    }
+  }
+
+  // 600px
+  @if $breakpoint==sm {
+    @media screen and (max-width: break-points(sm)) {
+      @content;
+    }
+  }
+
+  // 800px
+  @if $breakpoint==md {
+    @media screen and (max-width: break-points(md)) {
+      @content;
+    }
+  }
+
+  // 1000px
+  @if $breakpoint==lg {
+    @media screen and (max-width: break-points(lg)) {
+      @content;
+    }
+  }
+
+  // 1300px
+  @if $breakpoint==xl {
+    @media screen and (min-width: break-points(xl)) {
+      @content;
+    }
+  }
+
+  // 1800px
+  @if $breakpoint==xxl {
+    @media screen and (min-width: break-points(xxl)) {
+      @content;
+    }
+  }
+}
+//@ ************    ************ //
