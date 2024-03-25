@@ -1,4 +1,4 @@
-import { getDomElement } from "./utils";
+import { getDomElement } from "./libraries/utils";
 
 export const dom = {
   root: document.documentElement,
