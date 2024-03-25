@@ -78,18 +78,24 @@
   display: none !important;
 }
 
+.flex-center {
+  @include flex;
+}
+
 //& ******* Colored ******* //
 .message,
 .error {
+  $svg-size: 5rem;
+
   max-width: 40rem;
   margin: 0 auto;
   padding: 5rem 4rem;
 
-  display: flex;
+  @include flex;
 
   svg {
-    height: 3rem;
-    width: 3rem;
+    height: $svg-size;
+    width: $svg-size;
     fill: getColor(primary-base);
     transform: translateY(-0.3rem);
   }
@@ -97,7 +103,7 @@
   p {
     margin-left: 1.5rem;
     font-size: 1.8rem;
-    line-height: 1.5;
+    line-height: 1.4;
     font-weight: 600;
   }
 }
