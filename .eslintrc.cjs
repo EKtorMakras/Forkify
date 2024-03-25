@@ -29,6 +29,7 @@ module.exports = {
     quotes: ["warn", "double"],
     semi: ["warn", "always"],
 
+    "no-unused-vars": "warn",
     "no-empty": "warn",
     "no-cond-assign": ["warn", "always"],
     "no-multiple-empty-lines": [

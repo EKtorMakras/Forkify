@@ -1,3 +1,5 @@
+import { TIMEOUT_SECONDS } from "../common/config";
+
 // ================== Strings ================== //
 export function toProperCase(str) {
   if (typeof str !== "string") {
@@ -70,7 +72,7 @@ export function formatNumber(number, notation, locale) {
   }
 
   if (typeof notation !== "string" || (notation !== "compact" && notation !== "scientific")) {
-    throw new Error('formatNumber: Notation must be either "compact" or "scientific".');
+    throw new Error("formatNumber: Notation must be either 'compact' or 'scientific'.");
   }
 
   if (typeof locale !== "string") {
@@ -506,6 +508,30 @@ export function updateItemLs(key, property, value) {
   }
 }
 
+// ================== Fetch ================== //
+export function timeout(s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+}
+
+export async function getJSON(url) {
+  try {
+    const response = await Promise.race([fetch(url), timeout(TIMEOUT_SECONDS)]);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`${data.message} (${response.status})`);
+    }
+
+    return { data, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
+
 // ================== Other ================== //
 export function sanitizeInput(inputValue) {
   const div = document.createElement("div");
@@ -525,12 +551,4 @@ export function getParameterValue(paramName, url = window.location.href) {
   if (!results) return null;
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-export function timeout(s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
 }
