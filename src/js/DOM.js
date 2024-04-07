@@ -6,4 +6,5 @@ export const dom = {
   recipeContainer: getDomElement(".recipe"),
   searchForm: getDomElement(".search"),
   results: getDomElement(".results"),
+  pagination: getDomElement(".pagination"),
 };
