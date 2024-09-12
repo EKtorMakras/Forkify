@@ -157,6 +157,18 @@ class Fraction {
   toNumber() {
     return this.numerator / this.denominator;
   }
+
+  toMixedNumber() {
+    const whole = Math.floor(this.numerator / this.denominator);
+    const remainderNumerator = this.numerator % this.denominator;
+    if (whole === 0) {
+      return this.toString(); // No whole number to display
+    } else if (remainderNumerator === 0) {
+      return whole.toString(); // It's a whole number, no fraction part
+    } else {
+      return `${whole} ${remainderNumerator}/${this.denominator}`;
+    }
+  }
 }
 
 export function createFraction(num) {
@@ -169,9 +181,9 @@ export function createFraction(num) {
     return new Fraction(parsedNum);
   } else if (num instanceof Fraction) {
     // If the input is already a Fraction instance, return it as is
-    return new Fraction(num);
+    return new num();
   } else {
     // If the input cannot be parsed as a number and is not a Fraction instance, return an empty string
-    return "";
+    return null;
   }
 }
