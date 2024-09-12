@@ -24,22 +24,21 @@ export default class View {
     const newElements = Array.from(newDom.querySelectorAll("*"));
     const currentElements = Array.from(this._parentElement.querySelectorAll("*"));
 
-    // Updates Text
     newElements.forEach((newEl, i) => {
       const currentElement = currentElements[i];
 
+      // Updates Text
       if (!newEl.isEqualNode(currentElement) && newEl.firstChild.nodeValue.trim() !== "") {
         currentElement.textContent = newEl.textContent;
       }
 
+      // Updates Attributes
       if (!newEl.isEqualNode(currentElement)) {
         Array.from(newEl.attributes).forEach((attr) => {
           currentElement.setAttribute(attr.name, attr.value);
         });
       }
     });
-
-    // Updates Attributes
   }
 
   renderSpinner() {
