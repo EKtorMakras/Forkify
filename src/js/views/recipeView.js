@@ -11,6 +11,19 @@ class RecipeView extends View {
     ["hashchange", "load"].forEach((evt) => window.addEventListener(evt, handler));
   }
 
+  addHandlerUpdateServings(handler) {
+    this._parentElement.addEventListener("click", (evt) => {
+      const btn = evt.target.closest(".btn--tiny");
+      if (!btn) return;
+
+      const { updateTo } = btn.dataset;
+
+      if (+updateTo > 0) {
+        handler(+updateTo);
+      }
+    });
+  }
+
   _generateMarkup() {
     return `
       <figure class="recipe__fig">
@@ -37,12 +50,12 @@ class RecipeView extends View {
           <span class="recipe__info-text">servings</span>
 
           <div class="recipe__info-buttons">
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--decrease-servings" data-update-to="${this._data.servings - 1}">
               <svg>
                 <use href="${icons}#icon-minus-circle"></use>
               </svg>
             </button>
-            <button class="btn--tiny btn--increase-servings">
+            <button class="btn--tiny btn--increase-servings" data-update-to="${this._data.servings + 1}">
               <svg>
                 <use href="${icons}#icon-plus-circle"></use>
               </svg>
@@ -91,18 +104,19 @@ class RecipeView extends View {
   }
 
   #generateIngredient(ingredient) {
-    return `
+    const string = `
     <li class="recipe__ingredient">
         <svg class="recipe__icon">
             <use href="${icons}#icon-check"></use>
         </svg>
-        <div class="recipe__quantity">${createFraction(ingredient.quantity)?.toString()}</div>
+        <div class="recipe__quantity">${ingredient.quantity ? createFraction(ingredient.quantity).toMixedNumber() : ""}</div>
         <div class="recipe__description">
             <span class="recipe__unit">${ingredient.unit}</span>
             ${ingredient.description}
         </div>
     </li>
   `;
+    return string;
   }
 }
 
