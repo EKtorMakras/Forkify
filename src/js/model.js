@@ -1,5 +1,5 @@
 import { API_URL, RESULTS_PER_PAGE } from "./common/config";
-import { getJSON } from "./libraries/utils";
+import { getJSON, setItemLs, getItemLs } from "./libraries/utils";
 
 export const state = {
   recipe: {},
@@ -81,6 +81,9 @@ export function addBookmark(recipe) {
   if (recipe.id === state.recipe.id) {
     state.recipe.bookmarked = true;
   }
+
+  // Update Ls
+  persistBookmarks();
 }
 
 export function removeBookmark(id) {
@@ -91,4 +94,25 @@ export function removeBookmark(id) {
   if (id === state.recipe.id) {
     state.recipe.bookmarked = false;
   }
+
+  // Update Ls
+  persistBookmarks();
 }
+
+function persistBookmarks() {
+  setItemLs("bookmarks", state.bookmarks);
+}
+
+function loadBookmarks() {
+  const storedBookmarks = getItemLs("bookmarks");
+  if (storedBookmarks) {
+    state.bookmarks = storedBookmarks;
+  }
+}
+
+// function clearBookmarks() {
+//   state.bookmarks = [];
+//   localStorage.clear("bookmarks");
+// }
+
+loadBookmarks();
