@@ -2,7 +2,8 @@ import View from "./View.js";
 import icons from "@/assets/img/icons.svg";
 import { dom } from "../DOM";
 import { createFraction } from "../libraries/fractional.js";
-
+/* eslint-disable */
+// prettier-ignore
 class RecipeView extends View {
   _parentElement = dom.recipeContainer;
   _errorMessage = "We couldn't find the recipe. Please try another one";
@@ -21,6 +22,14 @@ class RecipeView extends View {
       if (+updateTo > 0) {
         handler(+updateTo);
       }
+    });
+  }
+
+  addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener("click", (evt) => {
+      const btn = evt.target.closest(".btn--bookmark");
+      if (!btn) return;
+      handler();
     });
   }
 
@@ -68,9 +77,9 @@ class RecipeView extends View {
             <use href="${icons}#icon-user"></use>
           </svg>
         </div>
-        <button class="btn--round">
+        <button class="btn--round btn--bookmark">
           <svg class="">
-            <use href="${icons}#icon-bookmark-fill"></use>
+            <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
           </svg>
         </button>
       </div>

@@ -6,11 +6,13 @@ export default class View {
   _errorMessage = "Something went wrong";
   _message = "";
 
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
 
     this.#clear();
     this._parentElement.insertAdjacentHTML("afterbegin", markup);
@@ -28,7 +30,7 @@ export default class View {
       const currentElement = currentElements[i];
 
       // Updates Text
-      if (!newEl.isEqualNode(currentElement) && newEl.firstChild.nodeValue.trim() !== "") {
+      if (!newEl.isEqualNode(currentElement) && newEl.firstChild?.nodeValue?.trim() !== "") {
         currentElement.textContent = newEl.textContent;
       }
 
