@@ -7,4 +7,5 @@ export const dom = {
   searchForm: getDomElement(".search"),
   results: getDomElement(".results"),
   pagination: getDomElement(".pagination"),
+  bookmarks: getDomElement(".bookmarks"),
 };

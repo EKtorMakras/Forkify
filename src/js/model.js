@@ -1,5 +1,5 @@
 import { API_URL, RESULTS_PER_PAGE } from "./common/config";
-import { getJSON } from "./libraries/utils";
+import { getJSON, setItemLs, getItemLs } from "./libraries/utils";
 
 export const state = {
   recipe: {},
@@ -9,6 +9,7 @@ export const state = {
     page: 1,
     resultsPerPage: RESULTS_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export async function fetchRecipe(id) {
@@ -30,6 +31,7 @@ export async function fetchRecipe(id) {
     servings: recipe.servings,
     cookingTime: recipe.cooking_time,
     ingredients: recipe.ingredients,
+    bookmarked: state.bookmarks.some((bookmark) => bookmark.id === recipe.id),
   };
 }
 
@@ -51,6 +53,8 @@ export async function fetchSearchResults(query) {
       image: recipe.image_url,
     };
   });
+
+  state.search.page = 1;
 }
 
 export function getSearchResultsPage(page = state.search.page) {
@@ -68,3 +72,47 @@ export function updateServings(newServings) {
 
   state.recipe.servings = newServings;
 }
+
+export function addBookmark(recipe) {
+  // Add bookmark
+  state.bookmarks.push(recipe);
+
+  // Mark current recipe as bookmark
+  if (recipe.id === state.recipe.id) {
+    state.recipe.bookmarked = true;
+  }
+
+  // Update Ls
+  persistBookmarks();
+}
+
+export function removeBookmark(id) {
+  // Filter out the recipe from the bookmarks array
+  state.bookmarks = state.bookmarks.filter((bookmark) => bookmark.id !== id);
+
+  // UnMark current recipe as bookmark
+  if (id === state.recipe.id) {
+    state.recipe.bookmarked = false;
+  }
+
+  // Update Ls
+  persistBookmarks();
+}
+
+function persistBookmarks() {
+  setItemLs("bookmarks", state.bookmarks);
+}
+
+function loadBookmarks() {
+  const storedBookmarks = getItemLs("bookmarks");
+  if (storedBookmarks) {
+    state.bookmarks = storedBookmarks;
+  }
+}
+
+// function clearBookmarks() {
+//   state.bookmarks = [];
+//   localStorage.clear("bookmarks");
+// }
+
+loadBookmarks();
